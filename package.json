@@ -1,43 +1,180 @@
 {
-  "private": true,
-  "scripts": {
-    "build": "next build",
-    "dev": "next dev",
-    "prettier": "prettier --write --ignore-unknown .",
-    "prettier:check": "prettier --check --ignore-unknown .",
-    "start": "next start",
-    "seed": "node -r dotenv/config ./scripts/seed.js"
-  },
-  "dependencies": {
-    "@heroicons/react": "^2.0.18",
-    "@tailwindcss/forms": "^0.5.7",
-    "@types/node": "20.5.7",
-    "@vercel/postgres": "^0.5.1",
-    "autoprefixer": "10.4.15",
-    "bcrypt": "^5.1.1",
-    "clsx": "^2.0.0",
-    "next": "^14.0.2",
-    "postcss": "8.4.31",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "tailwindcss": "3.3.3",
-    "typescript": "5.2.2",
-    "use-debounce": "^10.0.0",
-    "zod": "^3.22.2"
-  },
-  "devDependencies": {
-    "@types/bcrypt": "^5.0.1",
-    "@types/react": "18.2.21",
-    "@types/react-dom": "18.2.14",
-    "@vercel/style-guide": "^5.0.1",
-    "dotenv": "^16.3.1",
-    "eslint": "^8.52.0",
-    "eslint-config-next": "^14.0.0",
-    "eslint-config-prettier": "9.0.0",
-    "prettier": "^3.0.3",
-    "prettier-plugin-tailwindcss": "0.5.4"
-  },
-  "engines": {
-    "node": ">=18.17.0"
-  }
+    "templates": {
+        "bottomTab" : {
+            "type" : "container",
+            "orientation": "vertical",
+            "width": {
+                "type": "match_parent",
+                "weight": 1
+            },
+            "content_alignment_horizontal": "center",
+            "items" : [
+                {
+                    "type": "image",
+                    "height": {
+                        "type": "fixed",
+                        "value": 23
+                    },
+                    "width": {
+                        "type": "fixed",
+                        "value": 23
+                    },
+                    "margins": {
+                        "bottom": 4
+                    },
+                    "image_url": "https://img.icons8.com/ios-glyphs/100/circled-menu--v1.png",
+                    "$tint_color": "tab_tint",
+                    "placeholder_color": "#210600",
+                    "border": {
+                        "corner_radius": 10
+                    },
+                    "extensions": [
+                        {
+                            "id": "shimmer"
+                        }
+                    ]
+                },
+                {
+                    "type" : "text",
+                    "$text" : "title",
+                    "$text_color": "tab_tint",
+                    "width": {
+                        "type": "wrap_content"
+                    }
+                }
+            ]
+        }
+    },
+    "card": {
+        "log_id": "div2_sample_card",
+        "variables": [
+            {
+                "name": "bottomSelectedTab",
+                "type": "integer",
+                "value": 0
+            }
+        ],
+        "variable_triggers": [
+            {
+                "condition": "@{bottomSelectedTab != -1}",
+                "mode": "on_variable",
+                "actions": [
+                    {
+                        "log_id": "changeState",
+                        "url": "div-action://set_state?state_id=0/fragment/@{bottomSelectedTab}"
+                    }
+                ]
+            }
+        ],
+        "states": [
+            {
+                "state_id": 0,
+                "div": {
+                    "id": "main",
+                    "type": "container",
+                    "orientation": "vertical",
+                    "width": {
+                        "type": "match_parent"
+                    },
+                    "height": {
+                        "type": "match_parent"
+
+                    },
+                    "items": [
+                        {
+                            "id": "fragment",
+                            "type" : "state",
+                            "height": {
+                                "type": "match_parent",
+                                "weight": 1
+                            },
+                            "background": [
+                                {
+                                    "type": "solid",
+                                    "color": "#0e000000"
+                                }
+                            ],
+                            "states" : [
+                                {
+                                    "state_id": "0",
+                                    "div" : {
+                                        "type": "text",
+                                        "text" : "first"
+                                    }
+                                },
+                                {
+                                    "state_id": "1",
+                                    "div" : {
+                                        "type": "text",
+                                        "text" : "second"
+                                    }
+                                    
+                                },
+                                {
+                                    "state_id": "2",
+                                    "div" : {
+                                        "type": "text",
+                                        "text" : "third"
+                                    }
+                                    
+                                }
+                            ]
+                        },
+                        {
+                           
+                            "type" : "container",
+                            "orientation": "horizontal",
+                            "height": {
+                                "type": "fixed",
+                                "value": 80
+                            },
+                            "background": [
+                                {
+                                    "type": "solid",
+                                    "color": "#FFF"
+                                }
+                            ],
+                            "content_alignment_vertical": "center",
+                            "items" : [
+                                {
+                                    "type" : "bottomTab",
+                                    "title" : "Firest",
+                                    "tab_tint" : "@{bottomSelectedTab == 0 ? '#339AF0' : '#111111'}",
+                                    "actions": [
+                                        {
+                                            "log_id": "tabclicked",
+                                            "url": "div-action://set_variable?name=bottomSelectedTab&value=0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type" : "bottomTab",
+                                    "title" : "Second",
+                                    "tab_tint" : "@{bottomSelectedTab == 1 ? '#339AF0' : '#111111'}",
+                                    "actions": [
+                                        {
+                                            "log_id": "tabclicked",
+                                            "url": "div-action://set_variable?name=bottomSelectedTab&value=1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type" : "bottomTab",
+                                    "title" : "Third",
+                                    "tab_tint" : "@{bottomSelectedTab == 2 ? '#339AF0' : '#111111'}",
+                                    "actions": [
+                                        {
+                                            "log_id": "tabclicked",
+                                            "url": "div-action://set_variable?name=bottomSelectedTab&value=2"
+                                        }
+                                    ]
+                                }
+                                
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    }
 }
